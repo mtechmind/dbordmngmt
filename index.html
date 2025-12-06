@@ -1078,17 +1078,21 @@
                                     <label for="stylistName" class="form-label">Stylist Name</label>
                                     <input type="text" class="form-control" name="stylistName" id="stylistName" required
                                         pattern="[A-Za-z ]+" title="Only alphabets and spaces allowed">
+                                    <span><small id="stlnamemsg" class="d-none text-danger"></small></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="phoneNumber" class="form-label">Phone Number</label>
                                     <div class="d-flex align-items-center gap-2">
-                                        <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber"
-                                            required pattern="0[789][0-9]{9}" maxlength="11" minlength="11"
-                                            title="Mobile number must be exactly 11 digits and start with 07, 08, or 09"
-                                            placeholder="Must start with 07, 08, or 09">
-                                        <span id="phoneLoader" style="display:none;font-size:1.1em;">⏳</span>
+                                        <div class="col">
+                                            <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber"
+                                                required pattern="0[789][0-9]{9}" maxlength="11" minlength="11"
+                                                title="Mobile number must be exactly 11 digits and start with 07, 08, or 09"
+                                                placeholder="Must start with 07, 08, or 09">
+                                            <span><small id="stlphonmsg" class="d-none text-danger"></small>
+                                        </div>
+                                        </span><span id="phoneLoader" style="display:none;font-size:1.1em;">⏳</span>
                                     </div>
 
                                     <!-- OTP functionality disabled for testing -->
@@ -1107,6 +1111,7 @@
                                     <input type="text" class="form-control" name="stylistLocation" id="stylistLocation"
                                         required list="stylistLocationDatalist"
                                         placeholder="Select location from list (required)">
+                                    <span><small id="stllocmsg" class="d-none text-danger"></small></span>
                                     <datalist id="stylistLocationDatalist">
                                         <option value="OJA OBA MARKET AKURE"></option>
                                         <option value="ONDO MARKET"></option>
@@ -1120,10 +1125,13 @@
                                 <div class="mb-3">
                                     <label for="stylistCode" class="form-label">Stylist Code</label>
                                     <div class="d-flex align-items-center gap-2">
-                                        <input type="text" class="form-control" name="stylistCode" id="stylistCode"
-                                            required pattern="[A-Za-z][0-9]{3}" maxlength="4" minlength="4"
-                                            title="First letter, then 3 digits (e.g. A001)"
-                                            placeholder="e.g. A001 (required)">
+                                        <div class="col">
+                                            <input type="text" class="form-control" name="stylistCode" id="stylistCode"
+                                                required pattern="[A-Za-z][0-9]{3}" maxlength="4" minlength="4"
+                                                title="First letter, then 3 digits (e.g. A001)"
+                                                placeholder="e.g. A001 (required)">
+                                            <span><small id="stlcodemsg" class="d-none text-danger"></small></span>
+                                        </div>
                                         <span id="stylistCodeLoader" style="display:none;font-size:1.1em;">⏳</span>
                                     </div>
                                 </div>
@@ -1137,16 +1145,21 @@
                                     <input type="text" class="form-control" placeholder="eg. UBA, GTB, OPay etc."
                                         name="bankName" id="bankName" required pattern="[A-Za-z ]+"
                                         title="Only alphabets and spaces allowed">
+                                    <span><small id="stlbankNamemsg" class="d-none text-danger"></small></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="bankAccountNumber" class="form-label">Bank Account Number</label>
                                     <div class="d-flex align-items-center gap-2">
-                                        <input type="text" class="form-control" name="bankAccountNumber"
-                                            id="bankAccountNumber" required pattern="[0-9]{10}" maxlength="10"
-                                            minlength="10" title="Account number must be exactly 10 digits"
-                                            placeholder="Enter 10 digit account number (required)">
+                                        <div class="col">
+                                            <input type="text" class="form-control" name="bankAccountNumber"
+                                                id="bankAccountNumber" required pattern="[0-9]{10}" maxlength="10"
+                                                minlength="10" title="Account number must be exactly 10 digits"
+                                                placeholder="Enter 10 digit account number (required)">
+                                            <span><small id="stlbankAccountNumbermsg"
+                                                    class="d-none text-danger"></small></span>
+                                        </div>
                                         <span id="bankLoader" style="display:none;font-size:1.1em;">⏳</span>
                                     </div>
                                 </div>
@@ -1160,6 +1173,7 @@
                                     <input type="text" class="form-control" name="beneficiaryName" id="beneficiaryName"
                                         required placeholder="Exact Name in Bank (required)" pattern="[A-Za-z ]+"
                                         title="Only alphabets and spaces allowed">
+                                    <span><small id="stlbeneficiaryNamemsg" class="d-none text-danger"></small></span>
                                 </div>
                             </div>
                         </div>
@@ -1192,6 +1206,26 @@
 
                     <div id="stylistResult" class="mt-3" style="display: none;">
                         <div class="alert" role="alert"></div>
+                        <!-- Success Modal for Stylist Registration -->
+                        <div class="modal fade" id="stylistSuccessModal" tabindex="-1"
+                            aria-labelledby="stylistSuccessModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="stylistSuccessModalLabel">Success</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Stylist registered successfully!
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary"
+                                            data-bs-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1209,6 +1243,7 @@
                                     <input type="text" name="stylishCode" class="form-control" required
                                         list="stylishCodeDatalist" id="customerStylishCodeInput"
                                         placeholder="Select code from list (required)">
+                                    <span><small id="cstcodemsg" class="d-none text-danger"></small></span>
                                     <datalist id="stylishCodeDatalist"></datalist>
                                 </div>
                             </div>
@@ -1235,6 +1270,7 @@
                                     <label for="customerName" class="form-label">Customer Name</label>
                                     <input type="text" name="customerName" class="form-control" required
                                         pattern="[A-Za-z ]+" title="Only alphabets and spaces allowed">
+                                    <span><small id="cstnamemsg" class="d-none text-danger"></small></span>
                                 </div>
                             </div>
                         </div>
@@ -1246,6 +1282,7 @@
                                             class="text-muted">(Optional)</span></label>
                                     <input type="tel" name="customerNumber" class="form-control" inputmode="numeric"
                                         placeholder="Optional mobile number" maxlength="11">
+                                    <span><small id="cstmobnmsg" class="d-none text-danger"></small></span>
 
                                     <!-- OTP functionality disabled for testing -->
                                     <!-- <div id="customerOTPSection" class="mt-3" style="display: none;"> ... </div> -->
@@ -1260,6 +1297,7 @@
                                     <input type="text" name="customerTokenNo" class="form-control" id="customerTokenNo"
                                         pattern="[A-Za-z0-9-]+" title="Only letters, numbers and hyphens allowed"
                                         placeholder="Enter token number (required)" required>
+                                    <span><small id="csttoknmsg" class="d-none text-danger"></small></span>
                                 </div>
                             </div>
                         </div>
@@ -1306,6 +1344,26 @@
 
                     <div id="customerResult" class="mt-3" style="display: none;">
                         <div class="alert" role="alert"></div>
+                        <!-- Success Modal for Customer Registration -->
+                        <div class="modal fade" id="customerSuccessModal" tabindex="-1"
+                            aria-labelledby="customerSuccessModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="customerSuccessModalLabel">Success</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Customer registered successfully!
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary"
+                                            data-bs-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1471,7 +1529,7 @@
                             <div class="card stat-card">
                                 <div class="card-body">
                                     <i class="fas fa-calendar-day fa-lg text-primary"></i>
-                                    <div class="value text-primary" id="thisMonthPaid">₹0</div>
+                                    <div class="value text-primary" id="thisMonthPaid">₦0</div>
                                     <div class="label">This Month</div>
                                 </div>
                             </div>
@@ -2465,7 +2523,7 @@
             // Save to Firebase
             saveToFirebaseAndLocal('stylists', stylistData.stylistId, stylistData)
                 .then(() => {
-                    showAlert('Stylist registered successfully!', 'success');
+                    // showAlert('Stylist registered successfully!', 'success');
                     form.reset();
 
                     // Clear all red borders and validation states
@@ -2486,10 +2544,10 @@
                     }, 1000);
 
                     // Hide any result divs
-                    const resultDiv = document.getElementById('stylistResult');
-                    if (resultDiv) {
-                        resultDiv.style.display = 'none';
-                    }
+                    // const resultDiv = document.getElementById('stylistResult');
+                    // if (resultDiv) {
+                    //     resultDiv.style.display = 'none';
+                    // }
 
                     // Auto-refresh dashboard after stylist registration
                     setTimeout(() => {
@@ -2710,6 +2768,18 @@
                         this.style.border = '2px solid #dc3545';
                         this.setCustomValidity('Stylist code must start with a letter');
                         lastValidCode = '';
+                        const cstcodemsg = document.getElementById('cstcodemsg');
+                        if (cstcodemsg) {
+                            cstcodemsg.textContent = 'Stylist code must start with a letter';
+                            cstcodemsg.classList.remove('d-none');
+                        }
+                        else {
+                            const cstcodemsg = document.getElementById('stlcodemsg');
+                            if (cstcodemsg) {
+                                cstcodemsg.textContent = '';
+                                cstcodemsg.classList.add('d-none');
+                            }
+                        }
                         return;
                     }
 
@@ -2721,6 +2791,18 @@
                         this.value = lastValidCode;
                         this.style.border = '2px solid #dc3545';
                         this.setCustomValidity('Invalid format. Use: Letter + Numbers (e.g., A123)');
+                        const cstcodemsg = document.getElementById('cstcodemsg');
+                        if (cstcodemsg) {
+                            cstcodemsg.textContent = 'Invalid format. Use: Letter + Numbers (e.g., A123)';
+                            cstcodemsg.classList.remove('d-none');
+                        }
+                        else {
+                            const cstcodemsg = document.getElementById('cstcodemsg');
+                            if (cstcodemsg) {
+                                cstcodemsg.textContent = '';
+                                cstcodemsg.classList.add('d-none');
+                            }
+                        }
                         return;
                     }
 
@@ -2794,14 +2876,24 @@
 
                     if (!isValid) {
                         this.style.border = '2px solid #dc3545';
-                        this.setCustomValidity('Please select a stylist code from the dropdown list only');
-                        this.value = ''; // Clear invalid input value
-                        showAlert('Please select a stylist code from the dropdown list only', 'warning');
+                        this.setCustomValidity('Please Enter registered Stylist code');
+                        this.value = ''; // Clear invalid input valuecstcodemsg
+                        showAlert('Please Enter registered Stylist code', 'warning');
                         if (stylistNameInput) stylistNameInput.value = '';
                         if (stylistLocationInput) stylistLocationInput.value = '';
+                        const cstcodemsg = document.getElementById('cstcodemsg');
+                        if (cstcodemsg) {
+                            cstcodemsg.textContent = 'Please Enter registered Stylist code';
+                            cstcodemsg.classList.remove('d-none');
+                        }
                     } else {
                         this.style.border = '';
                         this.setCustomValidity('');
+                        const cstcodemsg = document.getElementById('cstcodemsg');
+                        if (cstcodemsg) {
+                            cstcodemsg.textContent = '';
+                            cstcodemsg.classList.add('d-none');
+                        }
                     }
                 });
             }
@@ -2814,6 +2906,11 @@
                             this.style.border = '2px solid #dc3545';
                             this.setCustomValidity('Mobile number must start with 07, 08, or 09');
                             showAlert('Mobile number must start with 07, 08, or 09', 'warning');
+                            const cstmobnmsg = document.getElementById('cstmobmsg');
+                            if (cstmobnmsg) {
+                                cstmobnmsg.textContent = 'Mobile number must start with 07, 08, or 09';
+                                cstmobnmsg.classList.remove('d-none');
+                            }
                         } else {
                             this.style.border = '';
                             this.setCustomValidity('');
@@ -2821,6 +2918,11 @@
                     } else if (this.value.length > 0) {
                         this.style.border = '2px solid #dc3545';
                         this.setCustomValidity('Mobile number must be exactly 11 digits');
+                        const cstmobnmsg = document.getElementById('cstmobnmsg');
+                        if (cstmobnmsg) {
+                            cstmobnmsg.textContent = 'Mobile number must be exactly 11 digits';
+                            cstmobnmsg.classList.remove('d-none');
+                        }
                     }
                 });
             }
@@ -2860,7 +2962,12 @@
                                     this.style.border = '2px solid #dc3545';
                                     this.value = '';
                                     showAlert('This token number is already used', 'danger');
-                                    this.focus();
+                                    // this.focus();
+                                    const csttoknmsg = document.getElementById('csttoknmsg');
+                                    if (csttoknmsg) {
+                                        csttoknmsg.textContent = 'This token number is already used';
+                                        csttoknmsg.classList.remove('d-none');
+                                    }
                                 } else {
                                     this.style.border = '2px solid #28a745';
                                     setTimeout(() => {
@@ -2868,6 +2975,11 @@
                                             this.style.border = '';
                                         }
                                     }, 2000);
+                                    const csttoknmsg = document.getElementById('csttoknmsg');
+                                    if (csttoknmsg) {
+                                        csttoknmsg.textContent = '';
+                                        csttoknmsg.classList.add('d-none');
+                                    }
                                 }
                             }).catch(error => {
                                 this.style.border = '';
@@ -3151,6 +3263,21 @@
                     section.style.display = 'none';
                 });
 
+                // Reset all forms when changing sections
+                document.querySelectorAll('form').forEach(form => {
+                    form.reset();
+                    // Clear all validation errors
+                    form.querySelectorAll('input, select, textarea').forEach(input => {
+                        input.style.border = '';
+                        input.setCustomValidity('');
+                    });
+                    // Hide all error messages
+                    form.querySelectorAll('.text-danger').forEach(msg => {
+                        msg.textContent = '';
+                        msg.classList.add('d-none');
+                    });
+                });
+
                 // Show the selected section
                 const targetSection = document.getElementById(targetId);
                 if (targetSection) {
@@ -3276,19 +3403,19 @@
             // Update payment cards with actual amounts
             const totalPaidElement = document.getElementById('totalPaid');
             if (totalPaidElement) {
-                totalPaidElement.textContent = '₹' + actualTotalPaid.toLocaleString();
+                totalPaidElement.textContent = '₦' + actualTotalPaid.toLocaleString();
             }
 
             // Update total pending element
             const totalPendingElement = document.getElementById('totalPending');
             if (totalPendingElement) {
-                totalPendingElement.textContent = '₹' + actualTotalPending.toLocaleString();
+                totalPendingElement.textContent = '₦' + actualTotalPending.toLocaleString();
             }
 
             // Update this month paid amount
             const thisMonthPaidElement = document.getElementById('thisMonthPaid');
             if (thisMonthPaidElement) {
-                thisMonthPaidElement.textContent = '₹' + thisMonthPaidAmount.toLocaleString();
+                thisMonthPaidElement.textContent = '₦' + thisMonthPaidAmount.toLocaleString();
             }
 
             // Update payment rate (Pending/Total)*100
@@ -3300,7 +3427,7 @@
             // Update pending payments if element exists
             const pendingPaymentsElement = document.getElementById('pendingPayments');
             if (pendingPaymentsElement) {
-                pendingPaymentsElement.textContent = '₹' + actualTotalPending.toLocaleString();
+                pendingPaymentsElement.textContent = '₦' + actualTotalPending.toLocaleString();
             }
         }
 
@@ -3317,6 +3444,9 @@
         }
 
         function showAlert(message, type) {
+            // Alert messages disabled - no top alerts will be shown
+            return;
+
             const alertDiv = document.createElement('div');
             alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
             alertDiv.innerHTML = `
@@ -3840,6 +3970,7 @@
             const bankInput = form.elements['bankAccountNumber'];
             const stylistNameInput = form.elements['stylistName'];
             const bankNameInput = form.elements['bankName'];
+            const beneficiaryNameInput = form.elements['beneficiaryName'];
             const registerBtn = document.getElementById('registerStylistBtn');
             const resultDiv = document.getElementById('stylistResult');
 
@@ -3869,36 +4000,131 @@
             setAutoUppercase();
 
             // Input validation and restriction - DISABLED FOR TESTING
-            function restrictInput(input, pattern) {
+            function restrictInput(input, pattern, msg, smid) {
                 // Validation disabled for clean testing
 
-                /*
                 let lastValid = '';
                 input.addEventListener('input', function () {
+                    // Special handling for beneficiary name - only check if blank
+                    if (input.name === 'beneficiaryName') {
+                        const value = input.value.trim();
+                        const msgElem = document.getElementById(smid);
+
+                        if (value === '') {
+                            input.style.border = '2px solid #dc3545';
+                            if (msgElem) {
+                                msgElem.textContent = msg;
+                                msgElem.classList.remove('d-none');
+                            }
+                        } else {
+                            input.style.border = '';
+                            if (msgElem) {
+                                msgElem.textContent = '';
+                                msgElem.classList.add('d-none');
+                            }
+                        }
+                        return;
+                    }
+
+                    // Regular validation for other fields
                     if (pattern && !pattern.test(input.value)) {
                         input.value = lastValid;
+                        input.style.border = '2px solid #dc3545';
+                        const msgElem = document.getElementById(smid);
+                        if (msgElem) {
+                            msgElem.textContent = msg;
+                            msgElem.classList.remove('d-none');
+                        }
                     } else if (!input.checkValidity()) {
                         input.style.border = '2px solid #dc3545';
+                        const msgElem = document.getElementById(smid);
+                        if (msgElem) {
+                            msgElem.textContent = msg;
+                            msgElem.classList.remove('d-none');
+                        }
                     } else {
                         input.style.border = '';
                         lastValid = input.value;
+                        const msgElem = document.getElementById(smid);
+                        if (msgElem) {
+                            msgElem.textContent = '';
+                            msgElem.classList.add('d-none');
+                        }
                     }
                 });
-                */
+
             }
 
             // Apply input restrictions
-            restrictInput(stylistNameInput, /^[A-Za-z ]*$/);
-            restrictInput(phoneInput, /^[0-9]{0,11}$/);
-            restrictInput(bankNameInput, /^[A-Za-z ]*$/);
-            restrictInput(bankInput, /^[0-9]{0,10}$/);
+            restrictInput(stylistNameInput, /^[A-Za-z ]*$/, "cannot be blank and must contain only letters and spaces", 'stlnamemsg');
+            restrictInput(phoneInput, /^[0-9]{0,11}$/, "must be numeric and up to 11 digits", 'stlphonmsg');
+            restrictInput(bankNameInput, /^[A-Za-z ]*$/, "cannot be blank and must contain only letters and spaces", 'stlbankNamemsg');
+            restrictInput(bankInput, /^[0-9]{0,10}$/, "must be numeric and up to 10 digits", 'stlbankAccountNumbermsg');
+            restrictInput(beneficiaryNameInput, /^.*$/, "cannot be blank", 'stlbeneficiaryNamemsg');
+            restrictInput(locationInput, /^.+$/, "location is required", 'stllocmsg');
+            restrictInput(codeInput, /^[A-Za-z]?[0-9]{0,3}$/, "must be one letter followed by 3 digits (e.g. A001)", 'stlcodemsg');
 
-            // Bank name validation
-            bankNameInput.addEventListener('blur', function () {
-                const bankName = this.value.trim();
-                const bankAccount = bankInput.value.trim();
-                if (bankName && bankAccount && bankAccount.length === 10) {
-                    checkDuplicate('bank');
+            // Mobile number duplicate validation
+            phoneInput.addEventListener('blur', function () {
+                const phone = this.value.trim();
+                const msgElem = document.getElementById('stlphonmsg');
+
+                // Check Nigerian phone format
+                if (phone && !phone.match(/^0[789]\d{9}$/)) {
+                    this.style.border = '2px solid #dc3545';
+                    if (msgElem) {
+                        msgElem.textContent = 'Phone must be 11 digits starting with 07, 08, or 09';
+                        msgElem.classList.remove('d-none');
+                    }
+                    return;
+                }
+
+                if (phone.length >= 11) {
+                    checkDuplicate('phone');
+                } else if (phone.length > 0) {
+                    this.style.border = '2px solid #dc3545';
+                    if (msgElem) {
+                        msgElem.textContent = 'Phone number must be 11 digits';
+                        msgElem.classList.remove('d-none');
+                    }
+                } else {
+                    this.style.border = '';
+                    if (msgElem) {
+                        msgElem.textContent = '';
+                        msgElem.classList.add('d-none');
+                    }
+                }
+            });
+
+            // Stylist code duplicate validation
+            codeInput.addEventListener('blur', function () {
+                const code = this.value.trim();
+                const msgElem = document.getElementById('stlcodemsg');
+
+                // Check stylist code format
+                if (code && !code.match(/^[A-Za-z][0-9]{3}$/)) {
+                    this.style.border = '2px solid #dc3545';
+                    if (msgElem) {
+                        msgElem.textContent = 'Code must be 1 letter followed by 3 digits (e.g. A001)';
+                        msgElem.classList.remove('d-none');
+                    }
+                    return;
+                }
+
+                if (code.length >= 4) {
+                    checkDuplicate('code');
+                } else if (code.length > 0) {
+                    this.style.border = '2px solid #dc3545';
+                    if (msgElem) {
+                        msgElem.textContent = 'Code must be 4 characters (e.g. A001)';
+                        msgElem.classList.remove('d-none');
+                    }
+                } else {
+                    this.style.border = '';
+                    if (msgElem) {
+                        msgElem.textContent = '';
+                        msgElem.classList.add('d-none');
+                    }
                 }
             });
 
@@ -3910,6 +4136,15 @@
                     checkDuplicate('bank');
                 }
             });
+
+            // // Bank name validation
+            // bankNameInput.addEventListener('blur', function () {
+            //     const bankName = this.value.trim();
+            //     const bankAccount = bankInput.value.trim();
+            //     if (bankName && bankAccount && bankAccount.length === 10) {
+            //         checkDuplicate('bank');
+            //     }
+            // });
 
             // Bank account validation
             bankInput.addEventListener('blur', function () {
@@ -4035,6 +4270,11 @@
                                 showAlert('This phone number is already registered as a stylist', 'danger');
                                 phoneInput.focus(); // Refocus for user convenience
                                 duplicateFound = true;
+                                const stlphonmsg = document.getElementById('stlphonmsg');
+                                if (stlphonmsg) {
+                                    stlphonmsg.textContent = 'This phone number is already registered as a stylist';
+                                    stlphonmsg.classList.remove('d-none');
+                                }
                             } else {
                                 phoneInput.style.border = '2px solid #28a745'; // Green for success
                                 duplicateFound = false;
@@ -4044,6 +4284,11 @@
                                         phoneInput.style.border = '';
                                     }
                                 }, 2000);
+                                const stlphonmsg = document.getElementById('stlphonmsg');
+                                if (stlphonmsg) {
+                                    stlphonmsg.textContent = '';
+                                    stlphonmsg.classList.add('d-none');
+                                }
                             }
                         }).catch(error => {
                             if (phoneLoader) phoneLoader.style.display = 'none';
@@ -4065,8 +4310,16 @@
                                 showAlert('This stylist code is already registered', 'danger');
                                 codeInput.focus(); // Refocus for user convenience
                                 duplicateFound = true;
+                                const stlcodemsg = document.getElementById('stlcodemsg');
+                                if (stlcodemsg) {
+                                    stlcodemsg.textContent = 'This stylist code is already registered';
+                                    stlcodemsg.classList.remove('d-none');
+                                }
                             } else {
-                                codeInput.style.border = '2px solid #28a745'; // Green for success
+                                if (codeInput.value === '') {
+                                    codeInput.style.border = '2px solid #dc3545';
+                                }
+                                else { codeInput.style.border = '2px solid #28a745'; } // Green for success
                                 duplicateFound = false;
                                 // Remove success border after 2 seconds
                                 setTimeout(() => {
@@ -4074,6 +4327,11 @@
                                         codeInput.style.border = '';
                                     }
                                 }, 2000);
+                                const stlcodemsg = document.getElementById('stlcodemsg');
+                                if (stlcodemsg) {
+                                    stlcodemsg.textContent = '';
+                                    stlcodemsg.classList.add('d-none');
+                                }
                             }
                         })
                         .catch(error => {
@@ -4107,6 +4365,11 @@
                                 showAlert(`Bank account ${bank} with ${bankName} is already registered`, 'danger');
                                 bankInput.focus(); // Refocus for user convenience
                                 duplicateFound = true;
+                                const stlbankmsg = document.getElementById('stlbankmsg');
+                                if (stlbankmsg) {
+                                    stlbankmsg.textContent = `Bank account ${bank} with ${bankName} is already registered`;
+                                    stlbankmsg.classList.remove('d-none');
+                                }
                             } else {
                                 bankInput.style.border = '2px solid #28a745'; // Green for success
                                 duplicateFound = false;
@@ -4116,6 +4379,11 @@
                                         bankInput.style.border = '';
                                     }
                                 }, 2000);
+                                const stlbankmsg = document.getElementById('stlbankmsg');
+                                if (stlbankmsg) {
+                                    stlbankmsg.textContent = '';
+                                    stlbankmsg.classList.add('d-none');
+                                }
                             }
                         })
                         .catch(error => {
@@ -4132,11 +4400,21 @@
 
                 // Show checking state immediately for valid phone numbers
                 const phoneNumber = this.value.trim();
-                if (phoneNumber.length >= 8 && /^[0-9]+$/.test(phoneNumber)) {
+                if (phoneNumber.length >= 11 && /^[0-9]+$/.test(phoneNumber)) {
                     this.style.border = '2px solid #ffc107';
                     debounceTimers.phone = setTimeout(() => checkDuplicate('phone'), 300);
+                    const stlphonmsg = document.getElementById('stlphonmsg');
+                    if (stlphonmsg) {
+                        stlphonmsg.textContent = 'should start with 07, 08 or 09 and be up to 11 digits';
+                        stlphonmsg.classList.remove('d-none');
+                    }
                 } else {
                     this.style.border = '';
+                    const stlphonmsg = document.getElementById('stlphonmsg');
+                    if (stlphonmsg) {
+                        stlphonmsg.textContent = '';
+                        stlphonmsg.classList.add('d-none');
+                    }
                 }
             });
 
@@ -4145,11 +4423,21 @@
 
                 // Show checking state for valid bank account numbers
                 const bankAccount = this.value.trim();
-                if (bankAccount.length >= 8 && /^[0-9]+$/.test(bankAccount)) {
+                if (bankAccount.length >= 10 && /^[0-9]+$/.test(bankAccount)) {
                     this.style.border = '2px solid #ffc107';
                     debounceTimers.bank = setTimeout(() => checkDuplicate('bank'), 300);
+                    const stlbankmsg = document.getElementById('stlbankmsg');
+                    if (stlbankmsg) {
+                        stlbankmsg.textContent = 'should be numeric and at least 10 digits';
+                        stlbankmsg.classList.remove('d-none');
+                    }
                 } else {
                     this.style.border = '';
+                    const stlbankmsg = document.getElementById('stlbankmsg');
+                    if (stlbankmsg) {
+                        stlbankmsg.textContent = '';
+                        stlbankmsg.classList.add('d-none');
+                    }
                 }
             });
 
@@ -4161,8 +4449,18 @@
                 if (stylistCode.length >= 2 && /^[A-Z][0-9]*$/.test(stylistCode)) {
                     this.style.border = '2px solid #ffc107';
                     debounceTimers.code = setTimeout(() => checkDuplicate('code'), 300);
+                    const stlcodemsg = document.getElementById('stlcodemsg');
+                    if (stlcodemsg) {
+                        stlcodemsg.textContent = 'should start with a capital letter followed by 3 digits';
+                        stlcodemsg.classList.remove('d-none');
+                    }
                 } else {
                     this.style.border = '';
+                    const stlcodemsg = document.getElementById('stlcodemsg');
+                    if (stlcodemsg) {
+                        stlcodemsg.textContent = '';
+                        stlcodemsg.classList.add('d-none');
+                    }
                 }
             });
 
@@ -4480,13 +4778,13 @@
                     // Update payment displays with real calculated amounts
                     const totalPaymentElement = document.querySelector('.dashboard-section .row .col-md-3:nth-child(3) .value');
                     if (totalPaymentElement) {
-                        totalPaymentElement.textContent = '₹' + totalPayment.toLocaleString();
+                        totalPaymentElement.textContent = '₦' + totalPayment.toLocaleString();
                         console.log('📊 Updated total payment display:', totalPaymentElement.textContent);
                     }
 
                     const pendingPaymentElement = document.querySelector('.dashboard-section .row .col-md-3:nth-child(4) .value');
                     if (pendingPaymentElement) {
-                        pendingPaymentElement.textContent = '₹' + pendingAmount.toLocaleString();
+                        pendingPaymentElement.textContent = '₦' + pendingAmount.toLocaleString();
                         console.log('📊 Updated pending payment display:', pendingPaymentElement.textContent);
                     }
 
@@ -4605,9 +4903,9 @@
                             <td>${stylistCount}</td>
                             <td>${braidingCompleted}</td>
                             <td>${days}</td>
-                            <td>₹${totalPayment.toLocaleString()}</td>
-                            <td>₹${paymentDone.toLocaleString()}</td>
-                            <td>₹${paymentPending.toLocaleString()}</td>
+                            <td>₦${totalPayment.toLocaleString()}</td>
+                            <td>₦${paymentDone.toLocaleString()}</td>
+                            <td>₦${paymentPending.toLocaleString()}</td>
                         `;
 
                         console.log(`Added row for ${location}: ${stylistCount} stylists, ${braidingCompleted} braidings, ${days} days`);
@@ -4826,7 +5124,7 @@
                                             <tr>
                                                 <td><code>${m.custId}</code></td>
                                                 <td>${m.paymentStatus}</td>
-                                                <td>₹${m.paymentAmount}</td>
+                                                <td>₦${m.paymentAmount}</td>
                                                 <td><span class="text-danger">${m.reason}</span></td>
                                             </tr>
                                         `).join('')}
@@ -6807,5 +7105,30 @@
 
     <span id="PING_IFRAME_FORM_DETECTION" style="display: none;"></span>
 </body>
+<script>
+    // Show popup on successful stylist registration
+    document.addEventListener('DOMContentLoaded', function () {//stylistResult
+        var stylistForm = document.getElementById('stylistForm');
+        if (stylistForm) {
+            stylistForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var modal = new bootstrap.Modal(document.getElementById('stylistSuccessModal'));
+                modal.show();
+                document.getElementById('stylistResult').style.display = 'block';
+                // Place your actual form submission logic here if needed
+            });
+        }
+        var geoForm = document.getElementById('geoForm');
+        if (geoForm) {
+            geoForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var modal = new bootstrap.Modal(document.getElementById('customerSuccessModal'));
+                modal.show();
+                document.getElementById('customerResult').style.display = 'block';
+                // Place your actual form submission logic here if needed
+            });
+        }
+    });
+</script>
 
 </html>
