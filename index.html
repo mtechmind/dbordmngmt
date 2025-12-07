@@ -929,17 +929,20 @@
                             <i class="fas fa-user-friends"></i> Customers
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#payments">
-                            <i class="fas fa-money-bill-wave"></i> Payments
-                        </a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="#payment-request">
-                            <i class="fas fa-hand-holding-usd"></i> Payment Request
+                            <i class="fas fa-hand-holding-usd"></i> Bank Payment Upload Format
                         </a>
                     </li>
+
                     <li class="nav-item">
+                        <a class="nav-link" href="#payments">
+                            <i class="fas fa-money-bill-wave"></i> Payment Proof CSV Upload
+                        </a>
+                    </li>
+
+                    <li class="nav-item d-none">
                         <a class="nav-link" href="#reports">
                             <i class="fas fa-chart-bar"></i> Reports
                         </a>
@@ -1113,11 +1116,11 @@
                                         placeholder="Select location from list (required)">
                                     <span><small id="stllocmsg" class="d-none text-danger"></small></span>
                                     <datalist id="stylistLocationDatalist">
-                                        <option value="OJA OBA MARKET AKURE"></option>
-                                        <option value="ONDO MARKET"></option>
-                                        <option value="OJA OBA MARKET, ADO - EKITI"></option>
-                                        <option value="OJA TUNTUN, ILORIN"></option>
-                                        <option value="ORISUNBARE MARKET, OSOGBO"></option>
+                                        <option value="AKURE"></option>
+                                        <option value="ONDA"></option>
+                                        <option value="ADO-EKITI"></option>
+                                        <option value="ILORIN"></option>
+                                        <option value="OSOGBO"></option>
                                     </datalist>
                                 </div>
                             </div>
@@ -1171,8 +1174,7 @@
                                 <div class="mb-3">
                                     <label for="beneficiaryName" class="form-label">Beneficiary Name</label>
                                     <input type="text" class="form-control" name="beneficiaryName" id="beneficiaryName"
-                                        required placeholder="Exact Name in Bank (required)" pattern="[A-Za-z ]+"
-                                        title="Only alphabets and spaces allowed">
+                                        required placeholder="Exact Name in Bank (required)">
                                     <span><small id="stlbeneficiaryNamemsg" class="d-none text-danger"></small></span>
                                 </div>
                             </div>
@@ -1427,34 +1429,36 @@
                             </div>
                             <!-- Search and Filter Bar -->
                             <div class="mt-3">
-                                <div class="row g-2">
+                                <div class="row g-2  d-flex justify-content-between align-items-center">
                                     <div class="col-md-4">
                                         <div class="input-group">
                                             <span class="input-group-text">
                                                 <i class="fas fa-search"></i>
                                             </span>
                                             <input type="text" class="form-control" id="stylistSearch"
-                                                placeholder="Search stylists..." onkeyup="filterStylists()">
+                                                placeholder="Search stylists Name / code / mobile..."
+                                                onkeyup="filterStylists()">
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <select class="form-select" id="locationFilter" onchange="filterStylists()">
                                             <option value="">All Locations</option>
-                                            <option value="OJA OBA MARKET AKURE">OJA OBA MARKET AKURE</option>
-                                            <option value="ONDO MARKET">ONDO MARKET</option>
-                                            <option value="OJA OBA MARKET, ADO - EKITI">OJA OBA MARKET, ADO - EKITI
+                                            <option value="AKURE">AKURE</option>
+                                            <option value="ONDA">ONDA</option>
+                                            <option value="ADO-EKITI">ADO-EKITI
                                             </option>
-                                            <option value="OJA TUNTUN, ILORIN">OJA TUNTUN, ILORIN</option>
-                                            <option value="ORISUNBARE MARKET, OSOGBO">ORISUNBARE MARKET, OSOGBO</option>
+                                            <option value="ILORIN">ILORIN</option>
+                                            <option value="OSOGBO">OSOGBO</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
-                                        <select class="form-select" id="statusFilter" onchange="filterStylists()">
-                                            <option value="">All Status</option>
-                                            <option value="Active">Active</option>
-                                            <option value="Inactive">Inactive</option>
-                                            <option value="Suspended">Suspended</option>
-                                        </select>
+                                    <div class="col-md-3 d-none">
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-phone"></i>
+                                            </span>
+                                            <input type="number" class="form-control" id="bankdetailsSearch"
+                                                placeholder="Search bank details..." onkeyup="filterStylists()">
+                                        </div>
                                     </div>
                                     <div class="col-md-2">
                                         <button class="btn btn-outline-secondary w-100" onclick="clearFilters()">
@@ -1475,9 +1479,10 @@
                                             <th onclick="sortTable(3)">Location <i class="fas fa-sort"></i></th>
                                             <th onclick="sortTable(4)">Registration Date <i class="fas fa-sort"></i>
                                             </th>
-                                            <th onclick="sortTable(5)">Status <i class="fas fa-sort"></i></th>
-                                            <th>Performance</th>
-                                            <th>Actions</th>
+                                            <th onclick="sortTable(5)">Bank Details <i class="fas fa-sort"></i></th>
+                                            <th onclick="sortTable(6)">Balance Amount <i class="fas fa-sort"></i></th>
+                                            <th onclick="sortTable(7)">Total Payment <i class="fas fa-sort"></i></th>
+                                            <!-- <th>Actions</th> -->
                                         </tr>
                                     </thead>
                                     <tbody id="stylistsTableBody">
@@ -1494,7 +1499,47 @@
 
                 <div id="payments" class="dashboard-section" style="display: none;">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2 class="section-title">Payment Tracking</h2>
+                        <h2 class="section-title">Payment Proof CSV Upload</h2>
+                        <button id="uploadCSV" class="btn btn-info me-2">
+                            <i class="fas fa-file-upload me-2"></i>Upload CSV
+                        </button>
+                    </div>
+
+                    <!-- CSV Upload Modal -->
+                    <div class="modal fade" id="csvUploadModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Upload CSV Payment Data</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="csvFile" class="form-label">Select CSV File</label>
+                                        <input type="file" class="form-control" id="csvFile" accept=".csv" required>
+                                        <div class="form-text">CSV should contain columns: Beneficiary Name,
+                                            Bank Code, Account Number, Amount, Narration (Transaction_ID)</div>
+                                        <div class="form-text mt-2"><strong>Note:</strong> This will update payment
+                                            statuses in the backend database by matching Customer IDs.</div>
+                                    </div>
+                                    <div id="csvPreview" class="mt-3" style="display: none;">
+                                        <h6>Preview (first 5 rows):</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-bordered">
+                                                <thead id="csvPreviewHeader"></thead>
+                                                <tbody id="csvPreviewBody"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary" id="uploadCSVData" disabled>Update
+                                        Payment Status</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row g-3 mb-4">
@@ -1512,7 +1557,7 @@
                                 <div class="card-body">
                                     <i class="fas fa-clock fa-lg text-warning"></i>
                                     <div class="value text-warning" id="totalPending">₦0</div>
-                                    <div class="label">Pending Payments</div>
+                                    <div class="label">To Be Paid</div>
                                 </div>
                             </div>
                         </div>
@@ -1569,11 +1614,8 @@
                 <!-- Payment Request Section -->
                 <div id="payment-request" class="dashboard-section" style="display: none;">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2 class="section-title">Payment Request</h2>
+                        <h2 class="section-title">Bank Payment Upload Format</h2>
                         <div>
-                            <button id="uploadCSV" class="btn btn-info me-2">
-                                <i class="fas fa-file-upload me-2"></i>Upload CSV
-                            </button>
                             <button id="exportPaymentRequests" class="btn btn-success me-2">
                                 <i class="fas fa-file-export me-2"></i>Export
                             </button>
@@ -1582,44 +1624,6 @@
                             </button>
                         </div>
                     </div>
-
-                    <!-- CSV Upload Modal -->
-                    <div class="modal fade" id="csvUploadModal" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Upload CSV Payment Data</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="csvFile" class="form-label">Select CSV File</label>
-                                        <input type="file" class="form-control" id="csvFile" accept=".csv" required>
-                                        <div class="form-text">CSV should contain columns: Token No, Beneficiary Name,
-                                            Bank Code, Amount, Narration (CUST_ID), Status</div>
-                                        <div class="form-text mt-2"><strong>Note:</strong> This will update payment
-                                            statuses in the backend database by matching Customer IDs.</div>
-                                    </div>
-                                    <div id="csvPreview" class="mt-3" style="display: none;">
-                                        <h6>Preview (first 5 rows):</h6>
-                                        <div class="table-responsive">
-                                            <table class="table table-sm table-bordered">
-                                                <thead id="csvPreviewHeader"></thead>
-                                                <tbody id="csvPreviewBody"></tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary" id="uploadCSVData" disabled>Update
-                                        Payment Status</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
 
                     <!-- Payment Requests Statistics -->
                     <div class="row g-3 mb-4">
@@ -1668,18 +1672,18 @@
                         </div>
                         <div class="card-body">
                             <div class="row g-3">
-                                <div class="col-md-4">
-                                    <label class="form-label">Search by Token/Name</label>
+                                <div class="col-md-5">
+                                    <label class="form-label">Search by customer Name/Beneficiary Name</label>
                                     <input type="text" id="paymentSearchInput" class="form-control"
-                                        placeholder="Search token or beneficiary name...">
+                                        placeholder="Search customer name or beneficiary name...">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-5">
                                     <label class="form-label">Bank</label>
                                     <select id="paymentBankFilter" class="form-control">
                                         <option value="">All Banks</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 d-none">
                                     <label class="form-label">Amount Range</label>
                                     <select id="paymentAmountFilter" class="form-control">
                                         <option value="">All Amounts</option>
@@ -1689,7 +1693,7 @@
                                         <option value="10000+">₦10,000+</option>
                                     </select>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 d-none">
                                     <label class="form-label">Status</label>
                                     <select id="paymentStatusFilter" class="form-control">
                                         <option value="pending" selected>Pending</option>
@@ -1711,13 +1715,13 @@
                                 <table class="table table-striped table-hover">
                                     <thead class="table-dark">
                                         <tr>
-                                            <th>Token No</th>
                                             <th>Beneficiary Name</th>
                                             <th>Bank Code</th>
+                                            <th>Account Number</th>
                                             <th>Amount</th>
-                                            <th>Narration (CUST_ID)</th>
+                                            <th>Narration (Transaction_ID)</th>
                                             <th>Status</th>
-                                            <th>Actions</th>
+                                            <!-- <th>Actions</th> -->
                                         </tr>
                                     </thead>
                                     <tbody id="paymentRequestsDataBody">
@@ -1826,7 +1830,7 @@
                             <!-- Search and Filter Bar -->
                             <div class="mt-3">
                                 <div class="row g-2">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="input-group">
                                             <span class="input-group-text">
                                                 <i class="fas fa-search"></i>
@@ -1839,12 +1843,12 @@
                                         <select class="form-select" id="customerLocationFilter"
                                             onchange="filterCustomers()">
                                             <option value="">All Locations</option>
-                                            <option value="OJA OBA MARKET AKURE">OJA OBA MARKET AKURE</option>
-                                            <option value="ONDO MARKET">ONDO MARKET</option>
-                                            <option value="OJA OBA MARKET, ADO - EKITI">OJA OBA MARKET, ADO - EKITI
+                                            <option value="AKURE">AKURE</option>
+                                            <option value="ONDA">ONDA</option>
+                                            <option value="ADO-EKITI">ADO-EKITI
                                             </option>
-                                            <option value="OJA TUNTUN, ILORIN">OJA TUNTUN, ILORIN</option>
-                                            <option value="ORISUNBARE MARKET, OSOGBO">ORISUNBARE MARKET, OSOGBO</option>
+                                            <option value="ILORIN">ILORIN</option>
+                                            <option value="OSOGBO">OSOGBO</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3">
@@ -1854,6 +1858,15 @@
                                         </select>
                                     </div>
                                     <div class="col-md-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-calendar-day"></i>
+                                            </span>
+                                            <input type="date" class="form-control" id="customerDate"
+                                                onchange="filterCustomers()">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
                                         <button class="btn btn-outline-secondary w-100"
                                             onclick="clearCustomerFilters()">
                                             <i class="fas fa-times"></i> Clear
@@ -1873,7 +1886,7 @@
                                             <th>Stylist</th>
                                             <th>Registration</th>
                                             <th>Payment</th>
-                                            <th>Actions</th>
+                                            <!-- <th>Actions</th> -->
                                         </tr>
                                     </thead>
                                     <tbody id="customersTableBody">
@@ -1971,12 +1984,12 @@
                                         <label class="form-label">Location Access</label>
                                         <select class="form-select" name="location">
                                             <option value="all">All Locations</option>
-                                            <option value="OJA OBA MARKET AKURE">OJA OBA MARKET AKURE</option>
-                                            <option value="ONDO MARKET">ONDO MARKET</option>
-                                            <option value="OJA OBA MARKET, ADO - EKITI">OJA OBA MARKET, ADO - EKITI
+                                            <option value="AKURE">AKURE</option>
+                                            <option value="ONDA">ONDA</option>
+                                            <option value="ADO-EKITI">ADO-EKITI
                                             </option>
-                                            <option value="OJA TUNTUN, ILORIN">OJA TUNTUN, ILORIN</option>
-                                            <option value="ORISUNBARE MARKET, OSOGBO">ORISUNBARE MARKET, OSOGBO</option>
+                                            <option value="ILORIN">ILORIN</option>
+                                            <option value="OSOGBO">OSOGBO</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
@@ -2046,11 +2059,11 @@
                                         <select class="form-select" id="locationFilter" onchange="filterUsers()">
                                             <option value="">All Locations</option>
                                             <option value="all">All Access</option>
-                                            <option value="OJA OBA MARKET AKURE">Akure</option>
-                                            <option value="ONDO MARKET">Ondo</option>
-                                            <option value="OJA OBA MARKET, ADO - EKITI">Ado-Ekiti</option>
-                                            <option value="OJA TUNTUN, ILORIN">Ilorin</option>
-                                            <option value="ORISUNBARE MARKET, OSOGBO">Osogbo</option>
+                                            <option value="AKURE">Akure</option>
+                                            <option value="ONDA">Ondo</option>
+                                            <option value="ADO-EKITI">Ado-Ekiti</option>
+                                            <option value="ILORIN">Ilorin</option>
+                                            <option value="OSOGBO">Osogbo</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2">
@@ -2578,7 +2591,6 @@
             if (firebaseAvailable) {
                 // CLEAR existing listener to prevent caching
                 database.ref('stylists').off('value');
-
                 // Use once() to get fresh data without caching
                 database.ref('stylists').once('value', (snapshot) => {
                     const stylists = snapshot.val() || {};
@@ -2658,19 +2670,7 @@
                         return;
                     }
 
-                    // Use the same attractive formatting as loadStylistsTable
                     tbody.innerHTML = stylistsList.map(([key, data], index) => {
-                        // No sample data - show real data only
-                        const completedJobs = 0; // Will be calculated from real customer data
-                        const rating = 'N/A'; // No rating system yet
-                        const earnings = '0'; // Will be calculated from real payment data
-
-                        const statusColor = {
-                            'Active': 'success',
-                            'Inactive': 'secondary',
-                            'Suspended': 'danger'
-                        }[data.status || 'Active'] || 'success';
-
                         const stylistForTable = {
                             id: key,
                             code: data.stylistCode,
@@ -2682,7 +2682,6 @@
                             bankName: data.bankName,
                             bankAccount: data.bankAccountNumber
                         };
-
                         return `
                             <tr data-stylist="${JSON.stringify(stylistForTable).replace(/"/g, '&quot;')}">
                                 <td><span class="stylist-code">${data.stylistCode || 'N/A'}</span></td>
@@ -2705,31 +2704,82 @@
                                         <br><small class="text-muted">${getDaysSince(data.registrationDate)} days ago</small>
                                     </div>
                                 </td>
-                                <td><span class="badge bg-${statusColor}">${data.status || 'Active'}</span></td>
                                 <td>
-                                    <div class="text-center">
-                                        <div><span class="text-muted">No jobs yet</span></div>
-                                        <div class="text-muted">No rating</div>
-                                        <small class="text-muted">₦0</small>
+                                    <div>
+                                        <strong>${data.bankAccountNumber || 'N/A'}</strong>
+                                        <br><small class="text-muted">Bank: ${data.bankName || 'N/A'}</small>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="btn-group" role="group">
-                                        <button class="btn btn-sm btn-outline-primary" onclick="viewStylist('${key}')" title="View Details">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-warning" onclick="editStylist('${key}')" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteStylist(${key})" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                                    </div>
+                                    ₦<span class="balance-amount" data-stylist-code="${data.stylistCode}">...</span>
+                                </td>
+                                <td>
+                                    ₦<span class="total-amount" data-stylist-code="${data.stylistCode}">...</span>
                                 </td>
                             </tr>
                         `;
                     }).join('');
+
+                    // Now fetch and update earnings for each stylist
+                    stylistsList.forEach(([key, data]) => {
+                        getEarningsForStylist(data.stylistCode).then(earnings => {
+                            const balanceSpan = tbody.querySelector(`.balance-amount[data-stylist-code="${data.stylistCode}"]`);
+                            const totalSpan = tbody.querySelector(`.total-amount[data-stylist-code="${data.stylistCode}"]`);
+
+                            if (balanceSpan) balanceSpan.textContent = earnings.toBePaidAmount.toFixed(2);
+                            if (totalSpan) totalSpan.textContent = earnings.totalAmount.toFixed(2);
+                        });
+                    });
                 });
+
+                function getEarningsForStylist(stylistCode) {
+                    return new Promise((resolve, reject) => {
+                        database.ref('customers').once('value')
+                            .then(snapshot => {
+                                const customers = snapshot.val() || {};
+                                const customersList = Object.values(customers);
+
+                                // Filter customers by stylist code
+                                const stylistCustomers = customersList.filter(customer =>
+                                    customer.stylistCode === stylistCode
+                                );
+
+                                let totalAmount = 0;
+                                let toBePaidAmount = 0;
+
+                                stylistCustomers.forEach(customer => {
+                                    const paymentAmount = parseFloat(customer.paymentAmount) || 5000;
+                                    const paymentStatus = customer.paymentStatus || 'TO BE PAID';
+
+                                    totalAmount += paymentAmount;
+
+                                    if (paymentStatus !== 'PAID') {
+                                        toBePaidAmount += paymentAmount;
+                                    }
+                                });
+
+                                resolve({ totalAmount, toBePaidAmount });
+                            })
+                            .catch(error => {
+                                resolve({ totalAmount: 0, toBePaidAmount: 0 });
+                            });
+                    });
+                }
+
+                // <td>
+                //                     <div class="btn-group" role="group">
+                //                         <button class="btn btn-sm btn-outline-primary" onclick="viewStylist('${key}')" title="View Details">
+                //                             <i class="fas fa-eye"></i>
+                //                         </button>
+                //                         <button class="btn btn-sm btn-outline-warning" onclick="editStylist('${key}')" title="Edit">
+                //                             <i class="fas fa-edit"></i>
+                //                         </button>
+                //                         <button class="btn btn-sm btn-outline-danger" onclick="deleteStylist(${key})" title="Delete">
+                //                     <i class="fas fa-trash"></i>
+                //                 </button>
+                //                     </div>
+                //                 </td>
+
             } else {
                 tbody.innerHTML = '<tr><td colspan="8" class="text-center text-danger">🚫 Firebase connection required. Please check your connection and refresh.</td></tr>';
             }
@@ -3095,7 +3145,7 @@
             const formData = new FormData(form);
             const submitBtn = document.getElementById('registerCustomerBtn');
             const customerNumber = formData.get('customerNumber');
-
+            console.log('Form Data:', formData);
             // Prevent double submission
             if (submitBtn.disabled) {
                 return;
@@ -3173,7 +3223,7 @@
                 customerId: 'CUST_' + Date.now(),
                 stylistCode: formData.get('stylishCode'),
                 stylistName: formData.get('stylishName'),
-                stylistLocation: formData.get('stylistLocation'),
+                stylistLocation: formData.get('customerstylistLocation'),
                 customerName: formData.get('customerName'),
                 customerNumber: formData.get('customerNumber') || 'Not Provided',
                 customerEmail: formData.get('customerEmail') || '',
@@ -3337,10 +3387,10 @@
                     const recentRecords = customersList.slice(-50).reverse();
 
                     recentRecords.forEach(([key, customer]) => {
-                        const paymentStatus = customer.paymentStatus || 'pending';
+                        const paymentStatus = customer.paymentStatus || 'TO BE PAID';
                         const paymentAmount = customer.paymentAmount || 5000;
-                        const statusClass = paymentStatus === 'Paid' ? 'success' : 'warning';
-                        const statusText = paymentStatus === 'Paid' ? 'Completed' : 'Pending';
+                        const statusClass = paymentStatus === 'PAID' ? 'success' : 'warning';
+                        const statusText = paymentStatus === 'PAID' ? 'PAID' : 'To Be Paid';
 
                         const row = `
                             <tr>
@@ -3383,7 +3433,7 @@
                 actualTotalAmount += amount;
 
                 const status = (data.paymentStatus || '').toString().toLowerCase();
-                if (status === 'paid' || status === 'completed' || status === 'complete') {
+                if (status === 'successful' || status === 'completed' || status === 'COMPLETED' || status === 'SUCCESSFUL') {
                     actualTotalPaid += amount;
 
                     // Check if payment was made this month
@@ -3434,11 +3484,11 @@
         // Helper functions
         function getLocationName(code) {
             const locations = {
-                'A': 'OJA OBA MARKET AKURE',
-                'B': 'ONDO MARKET',
-                'C': 'OJA OBA MARKET, ADO - EKITI',
-                'D': 'OJA TUNTUN, ILORIN',
-                'E': 'ORISUNBARE MARKET, OSOGBO'
+                'A': 'AKURE',
+                'B': 'ONDA',
+                'C': 'ADO-EKITI',
+                'D': 'ILORIN',
+                'E': 'OSOGBO'
             };
             return locations[code] || '';
         }
@@ -3516,7 +3566,7 @@
         function filterStylists() {
             const searchTerm = document.getElementById('stylistSearch').value.toLowerCase();
             const locationFilter = document.getElementById('locationFilter').value;
-            const statusFilter = document.getElementById('statusFilter').value;
+            const bankFilter = document.getElementById('bankdetailsSearch').value;
             const tableRows = document.querySelectorAll('#stylistsTableBody tr');
 
             let visibleCount = 0;
@@ -3531,20 +3581,23 @@
                 if (row.cells.length === 1) return; // Skip empty state row
 
                 const stylistData = JSON.parse(row.getAttribute('data-stylist'));
+                console.log("stylistData:", stylistData);
                 const name = stylistData.name.toLowerCase();
                 const code = stylistData.code.toLowerCase();
-                const phone = stylistData.phone.toLowerCase();
+                const phone = stylistData.phone;
                 const location = stylistData.location;
                 const status = stylistData.status;
                 const regDate = new Date(stylistData.date);
+                const bankDetails = stylistData.bankAccount;
+                const bankName = stylistData.bankName;
 
                 const matchesSearch = name.includes(searchTerm) || code.includes(searchTerm) || phone.includes(searchTerm);
                 const matchesLocation = !locationFilter || location === locationFilter;
-                const matchesStatus = !statusFilter || status === statusFilter;
+                const matchesBank = !bankFilter || (bankDetails && bankDetails.includes(bankFilter)) || (bankName && bankName.toLowerCase().includes(bankFilter.toLowerCase()));
 
-                const isVisible = matchesSearch && matchesLocation && matchesStatus;
+                const isVisible = matchesSearch && matchesLocation && matchesBank;
                 row.style.display = isVisible ? '' : 'none';
-
+                console.log("isVisible:", isVisible);
                 if (isVisible) {
                     visibleCount++;
                     if (status.toLowerCase() === 'active') {
@@ -3566,10 +3619,10 @@
             document.getElementById('newStylists').textContent = thisMonthCount;
 
             // Also update main dashboard stylist card if visible
-            const dashboardStylistCard = document.querySelector('.dashboard-section .row .col-md-3:nth-child(1) .value');
-            if (dashboardStylistCard) {
-                dashboardStylistCard.textContent = visibleCount;
-            }
+            // const dashboardStylistCard = document.querySelector('.dashboard-section .row .col-md-3:nth-child(1) .value');
+            // if (dashboardStylistCard) {
+            //     dashboardStylistCard.textContent = visibleCount;
+            // }
         }
 
         // Clear all filters
@@ -3577,6 +3630,7 @@
             document.getElementById('stylistSearch').value = '';
             document.getElementById('locationFilter').value = '';
             document.getElementById('statusFilter').value = '';
+            document.getElementById('bankdetailsSearch').value = '';
 
             // Show all rows
             const tableRows = document.querySelectorAll('#stylistsTableBody tr');
@@ -4601,7 +4655,7 @@
 
             tbody.innerHTML = customersList.map(([key, data]) => {
                 const statusColor = 'success'; // Default status
-                const paymentStatus = data.paymentStatus || 'Pending';
+                const paymentStatus = data.paymentStatus || 'TO BE PAID';
                 const paymentColor = paymentStatus.toLowerCase() === 'paid' ? 'success' : 'warning';
 
                 return `
@@ -4637,15 +4691,16 @@
                                 <br><small class="text-muted">₦${data.paymentAmount || '5000'}</small>
                             </div>
                         </td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary" onclick="viewCustomer('${key}')" title="View Details">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </td>
+                        
                     </tr>
                 `;
             }).join('');
         }
+        // <td>
+        //         <button class="btn btn-sm btn-outline-primary" onclick="viewCustomer('${key}')" title="View Details">
+        //             <i class="fas fa-eye"></i>
+        //         </button>
+        //     </td>
 
         // Update customer statistics
         function updateCustomerStats(customersList) {
@@ -4671,12 +4726,12 @@
                 return regDate.getMonth() === currentMonth && regDate.getFullYear() === currentYear;
             }).length;
 
-            console.log('👥 Customer Stats:', {
-                total: totalCustomers,
-                today: todayCustomers,
-                thisWeek: weeklyCustomers,
-                thisMonth: monthlyCustomers
-            });
+            // console.log('👥 Customer Stats:', {
+            //     total: totalCustomers,
+            //     today: todayCustomers,
+            //     thisWeek: weeklyCustomers,
+            //     thisMonth: monthlyCustomers
+            // });
 
             const totalCustomersEl = document.getElementById('totalCustomers');
             const todayCustomersEl = document.getElementById('todayCustomers');
@@ -4705,7 +4760,7 @@
                     const dashboardStylistElement = document.querySelector('.dashboard-section .row .col-md-3:nth-child(1) .value');
                     if (dashboardStylistElement) {
                         dashboardStylistElement.textContent = count;
-                        console.log('✅ Updated dashboard stylist count:', count);
+                        // console.log('✅ Updated dashboard stylist count:', count);
                     }
 
                     // Update location chart with stylist location distribution
@@ -4726,17 +4781,17 @@
                     const customersArray = Object.values(customers);
                     const count = customersArray.length;
 
-                    console.log('📊 Dashboard: FRESH customer count:', count);
-                    console.log('💳 Fresh payment data sample:', customersArray.slice(0, 2).map(c => ({
-                        name: c.customerName,
-                        status: c.paymentStatus,
-                        amount: c.paymentAmount
-                    })));
+                    // console.log('📊 Dashboard: FRESH customer count:', count);
+                    // console.log('💳 Fresh payment data sample:', customersArray.slice(0, 2).map(c => ({
+                    //     name: c.customerName,
+                    //     status: c.paymentStatus,
+                    //     amount: c.paymentAmount
+                    // })));
 
                     const braidingElement = document.querySelector('.dashboard-section .row .col-md-3:nth-child(2) .value');
                     if (braidingElement) {
                         braidingElement.textContent = count;
-                        console.log('✅ Updated customer count in dashboard:', count);
+                        // console.log('✅ Updated customer count in dashboard:', count);
                     }                    // Calculate real total payment and paid/pending amounts from database
 
 
@@ -4744,48 +4799,48 @@
                     let paidAmount = 0;
                     let pendingAmount = 0;
 
-                    console.log('💰 Processing payment data for', customersArray.length, 'customers...');
+                    // console.log('💰 Processing payment data for', customersArray.length, 'customers...');
 
                     customersArray.forEach((customer, index) => {
                         const amount = parseFloat(customer.paymentAmount) || 5000;
                         totalPayment += amount;
 
-                        console.log(`Customer ${index + 1}:`, {
-                            name: customer.customerName,
-                            status: customer.paymentStatus,
-                            amount: amount,
-                            rawStatus: customer.paymentStatus
-                        });
+                        // console.log(`Customer ${index + 1}:`, {
+                        //     name: customer.customerName,
+                        //     status: customer.paymentStatus,
+                        //     amount: amount,
+                        //     rawStatus: customer.paymentStatus
+                        // });
 
                         // Check for all variations of "Paid" status - using consistent logic
                         const status = (customer.paymentStatus || '').toString().toLowerCase();
-                        if (status === 'paid' || status === 'completed' || status === 'complete') {
+                        if (status === 'SUCCESSFUL' || status === 'COMPLETED' || status === 'COMPLETE') {
                             paidAmount += amount;
-                            console.log('✅ Counted as PAID:', amount);
+                            // console.log('✅ Counted as PAID:', amount);
                         }
                     });
 
                     // Calculate pending as Total - Paid (correct formula)
                     pendingAmount = totalPayment - paidAmount;
 
-                    console.log('💰 Payment Summary (CORRECTED):', {
-                        total: totalPayment,
-                        paid: paidAmount,
-                        pending: pendingAmount,
-                        formula: 'Pending = Total - Paid'
-                    });
+                    // console.log('💰 Payment Summary (CORRECTED):', {
+                    //     total: totalPayment,
+                    //     paid: paidAmount,
+                    //     pending: pendingAmount,
+                    //     formula: 'Pending = Total - Paid'
+                    // });
 
                     // Update payment displays with real calculated amounts
                     const totalPaymentElement = document.querySelector('.dashboard-section .row .col-md-3:nth-child(3) .value');
                     if (totalPaymentElement) {
                         totalPaymentElement.textContent = '₦' + totalPayment.toLocaleString();
-                        console.log('📊 Updated total payment display:', totalPaymentElement.textContent);
+                        // console.log('📊 Updated total payment display:', totalPaymentElement.textContent);
                     }
 
                     const pendingPaymentElement = document.querySelector('.dashboard-section .row .col-md-3:nth-child(4) .value');
                     if (pendingPaymentElement) {
                         pendingPaymentElement.textContent = '₦' + pendingAmount.toLocaleString();
-                        console.log('📊 Updated pending payment display:', pendingPaymentElement.textContent);
+                        // console.log('📊 Updated pending payment display:', pendingPaymentElement.textContent);
                     }
 
                     // Update daily chart with customer registration data
@@ -4794,7 +4849,7 @@
                     // Update location chart with real customer data (call it properly)
                     updateLocationChart();
 
-                    console.log('🔄 Dashboard statistics update completed!');
+                    // console.log('🔄 Dashboard statistics update completed!');
                 });
             } else {
             }
@@ -4819,23 +4874,23 @@
                     database.ref('customers').once('value'),
                     database.ref('stylists').once('value')
                 ]).then(([customersSnapshot, stylistsSnapshot]) => {
-                    console.log('Firebase data loaded for location summary');
+                    // console.log('Firebase data loaded for location summary');
 
                     const customers = customersSnapshot.val() || {};
                     const stylists = stylistsSnapshot.val() || {};
                     const customersArray = Object.values(customers);
                     const stylistsArray = Object.values(stylists);
 
-                    console.log('Customers count:', customersArray.length);
-                    console.log('Stylists count:', stylistsArray.length);
-                    console.log('Location counts:', locationCounts);
+                    // console.log('Customers count:', customersArray);
+                    // console.log('Stylists count:', stylistsArray.length);
+                    // console.log('Location counts:', locationCounts);
 
                     // Clear loading message
                     tbody.innerHTML = '';
 
                     // If no location data, show all locations from database
                     if (Object.keys(locationCounts).length === 0) {
-                        console.log('No location counts provided, generating from stylist data');
+                        // console.log('No location counts provided, generating from stylist data');
                         // Generate location counts from all stylists
                         const allLocationCounts = {};
                         stylistsArray.forEach(stylist => {
@@ -4843,12 +4898,12 @@
                             allLocationCounts[location] = (allLocationCounts[location] || 0) + 1;
                         });
                         locationCounts = allLocationCounts;
-                        console.log('Generated location counts:', locationCounts);
+                        // console.log('Generated location counts:', locationCounts);
                     }
 
                     // Process each location with real data
                     Object.entries(locationCounts).forEach(([location, stylistCount]) => {
-                        console.log(`Processing location: ${location}, stylists: ${stylistCount}`);
+                        // console.log(`Processing location: ${location}, stylists: ${stylistCount}`);
 
                         // Get customers for this location (via stylist location)
                         const locationCustomers = customersArray.filter(customer =>
@@ -4860,7 +4915,7 @@
                             stylist.location === location
                         );
 
-                        console.log(`Location ${location}: ${locationCustomers.length} customers, ${locationStylists.length} stylists`);
+                        // console.log(`Location ${location}: ${locationCustomers.length} customers, ${locationStylists.length} stylists`);
 
                         // Calculate actual braiding completed (customer count for this location)
                         const braidingCompleted = locationCustomers.length;
@@ -4890,7 +4945,7 @@
 
                             // Use consistent status checking like dashboard
                             const status = (customer.paymentStatus || '').toString().toLowerCase();
-                            if (status === 'paid' || status === 'completed' || status === 'complete') {
+                            if (status === 'SUCCESSFUL' || status === 'COMPLETED' || status === 'COMPLETE') {
                                 paymentDone += amount;
                             } else {
                                 paymentPending += amount;
@@ -4908,12 +4963,12 @@
                             <td>₦${paymentPending.toLocaleString()}</td>
                         `;
 
-                        console.log(`Added row for ${location}: ${stylistCount} stylists, ${braidingCompleted} braidings, ${days} days`);
+                        // console.log(`Added row for ${location}: ${stylistCount} stylists, ${braidingCompleted} braidings, ${days} days`);
                     });
 
                     // If still no data after processing, show message
                     if (Object.keys(locationCounts).length === 0) {
-                        console.log('No location data available, showing default message');
+                        // console.log('No location data available, showing default message');
                         const row = tbody.insertRow();
                         row.innerHTML = '<td colspan="7" class="text-center text-muted">No stylists registered yet. Register stylists to see location data.</td>';
                     }
@@ -4948,10 +5003,10 @@
                 }
 
                 const headers = lines[0].split(',').map(h => h.trim());
-                console.log('CSV Headers:', headers);
+                // console.log('CSV Headers:', headers);
 
                 // Verify CSV format
-                const requiredHeaders = ['CUST_ID', 'Payment Status'];
+                const requiredHeaders = ['Narration (Transaction ID)', 'Payment Status'];
                 const missingHeaders = requiredHeaders.filter(h => !headers.includes(h));
 
                 if (missingHeaders.length > 0) {
@@ -4967,7 +5022,7 @@
                 // Get all existing customers from Firebase first
                 database.ref('customers').once('value').then((snapshot) => {
                     const existingCustomers = snapshot.val() || {};
-                    console.log('Existing customers:', Object.keys(existingCustomers).length);
+                    // console.log('Existing customers:', Object.keys(existingCustomers).length);
 
                     // Process each CSV row
                     for (let i = 1; i < lines.length; i++) {
@@ -4975,9 +5030,9 @@
 
                         if (data.length < headers.length) continue;
 
-                        const custId = data[headers.indexOf('CUST_ID')];
+                        const custId = data[headers.indexOf('Narration (Transaction ID)')];
                         const paymentStatus = data[headers.indexOf('Payment Status')];
-                        const paymentAmount = data[headers.indexOf('Payment Amount')] || '5000';
+                        const paymentAmount = data[headers.indexOf('Amount')] || '5000';
 
                         if (custId && paymentStatus) {
                             // Check if customer exists in Firebase
@@ -5001,8 +5056,8 @@
                         }
                     }
 
-                    console.log('Updates to process:', updates.length);
-                    console.log('Mismatches found:', mismatches.length);
+                    // console.log('Updates to process:', updates.length);
+                    // console.log('Mismatches found:', mismatches.length);
 
                     // Show mismatches in popup if any
                     if (mismatches.length > 0) {
@@ -5041,7 +5096,7 @@
                     lastUpdated: new Date().toISOString()
                 }).then(() => {
                     successCount++;
-                    console.log(`Updated payment for ${update.customerName} (${update.custId})`);
+                    // console.log(`Updated payment for ${update.customerName} (${update.custId})`);
                 }).catch((error) => {
                     errorCount++;
                     console.error(`Failed to update ${update.custId}:`, error);
@@ -5053,7 +5108,7 @@
 
                 // Auto-refresh dashboard data after CSV upload with longer delay
                 setTimeout(() => {
-                    console.log('🔄 Auto-refreshing dashboard after CSV payment updates...');
+                    // console.log('🔄 Auto-refreshing dashboard after CSV payment updates...');
                     forceRefreshDashboard();
                 }, 1000); // Increased delay to 2 seconds for Firebase sync
 
@@ -5065,30 +5120,30 @@
 
         // Force refresh dashboard data
         function forceRefreshDashboard() {
-            console.log('🔄 FORCE REFRESH: Clearing cache and reloading all dashboard data...');
+            // console.log('🔄 FORCE REFRESH: Clearing cache and reloading all dashboard data...');
 
             if (!firebaseAvailable) {
-                console.log('❌ Firebase not available for refresh');
+                // console.log('❌ Firebase not available for refresh');
                 return;
             }
 
             // Clear all Firebase listeners first
             database.ref().off(); // Clear all listeners
 
-            console.log('🧹 All Firebase listeners cleared');
+            // console.log('🧹 All Firebase listeners cleared');
 
             // Add small delay then reload everything fresh
             setTimeout(() => {
-                console.log('📊 Reloading dashboard stats...');
+                // console.log('📊 Reloading dashboard stats...');
                 updateDashboardStats();
 
-                console.log('👥 Reloading customers...');
+                // console.log('👥 Reloading customers...');
                 loadCustomers();
 
-                console.log('💼 Reloading stylists...');
+                // console.log('💼 Reloading stylists...');
                 loadStylists();
 
-                console.log('✅ Dashboard force refresh completed - all data should be fresh!');
+                // console.log('✅ Dashboard force refresh completed - all data should be fresh!');
             }, 1000);
         }        // Show mismatch popup table
         function showMismatchPopup(mismatches) {
@@ -5179,7 +5234,7 @@
         }
 
         function exportCustomers() {
-            console.log('🔥 FIREBASE ONLY: Exporting customers data...');
+            // console.log('🔥 FIREBASE ONLY: Exporting customers data...');
 
             // Get customers data from Firebase
             if (!firebaseAvailable) {
@@ -5209,7 +5264,7 @@
                         `"${customer.stylistLocation || 'N/A'}"`,
                         customer.registrationDate || 'N/A',
                         customer.paymentAmount || '5000',
-                        customer.paymentStatus || 'Pending'
+                        customer.paymentStatus || 'TO BE PAID'
                     ].join(',');
                     csvContent += row + '\n';
                 });
@@ -5320,10 +5375,10 @@
 
         // Debug Firebase data function
         function debugFirebaseData() {
-            console.log('🐛 DEBUGGING: Checking Firebase data...');
+            // console.log('🐛 DEBUGGING: Checking Firebase data...');
 
             if (!firebaseAvailable) {
-                console.log('❌ Firebase not available!');
+                // console.log('❌ Firebase not available!');
                 alert('Firebase not available!');
                 return;
             }
@@ -5331,35 +5386,35 @@
             // Check customers data
             database.ref('customers').once('value', (snapshot) => {
                 const customers = snapshot.val() || {};
-                console.log('🐛 DEBUG: Raw customers data:', customers);
-                console.log('🐛 DEBUG: Number of customers:', Object.keys(customers).length);
+                // console.log('🐛 DEBUG: Raw customers data:', customers);
+                // console.log('🐛 DEBUG: Number of customers:', Object.keys(customers).length);
 
                 // Check payment status for each customer
                 Object.entries(customers).forEach(([id, customer], index) => {
-                    console.log(`🐛 Customer ${index + 1}:`, {
-                        id: id,
-                        name: customer.customerName,
-                        paymentStatus: customer.paymentStatus,
-                        paymentAmount: customer.paymentAmount,
-                        stylistCode: customer.stylistCode
-                    });
+                    // console.log(`🐛 Customer ${index + 1}:`, {
+                    //     id: id,
+                    //     name: customer.customerName,
+                    //     paymentStatus: customer.paymentStatus,
+                    //     paymentAmount: customer.paymentAmount,
+                    //     stylistCode: customer.stylistCode
+                    // });
                 });
             });
 
             // Check stylists data  
             database.ref('stylists').once('value', (snapshot) => {
                 const stylists = snapshot.val() || {};
-                console.log('🐛 DEBUG: Raw stylists data:', stylists);
-                console.log('🐛 DEBUG: Number of stylists:', Object.keys(stylists).length);
+                // console.log('🐛 DEBUG: Raw stylists data:', stylists);
+                // console.log('🐛 DEBUG: Number of stylists:', Object.keys(stylists).length);
 
                 // Check stylist codes
                 Object.entries(stylists).forEach(([id, stylist], index) => {
-                    console.log(`🐛 Stylist ${index + 1}:`, {
-                        id: id,
-                        name: stylist.stylistName,
-                        code: stylist.stylistCode,
-                        location: stylist.location
-                    });
+                    // console.log(`🐛 Stylist ${index + 1}:`, {
+                    //     id: id,
+                    //     name: stylist.stylistName,
+                    //     code: stylist.stylistCode,
+                    //     location: stylist.location
+                    // });
                 });
             });
 
@@ -5415,7 +5470,7 @@
                         }
 
                         showAlert('Phone number verified successfully!', 'success');
-                        console.log('Firebase OTP verification successful:', result.user);
+                        // console.log('Firebase OTP verification successful:', result.user);
                     })
                     .catch((error) => {
                         console.error('Firebase OTP verification error:', error);
@@ -5559,7 +5614,7 @@
         // Form validation with OTP check
         function validateFormWithOTP(formType) {
             // OTP validation disabled for testing
-            console.log(`OTP validation disabled for ${formType} form`);
+            // console.log(`OTP validation disabled for ${formType} form`);
             return true;
         }
 
@@ -5568,7 +5623,7 @@
             // Form validation setup - event listener removed to prevent duplicates
             const stylistForm = document.getElementById('stylistForm');
             if (stylistForm) {
-                console.log('Stylist form validation setup completed (event listener in initializeEnhancedStylistForm)');
+                // console.log('Stylist form validation setup completed (event listener in initializeEnhancedStylistForm)');
             }
 
         }
@@ -5583,7 +5638,7 @@
                 // Firebase is already initialized at the top of the script
                 // No need for additional reCAPTCHA setup for username/password login
                 // reCAPTCHA will be initialized only when needed for OTP verification
-                console.log('Firebase initialized successfully');
+                // console.log('Firebase initialized successfully');
             } catch (error) {
                 console.error('Firebase initialization error:', error);
                 showAlert('Failed to initialize authentication system', 'danger');
@@ -5600,10 +5655,10 @@
                 recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
                     'size': 'invisible',
                     'callback': (response) => {
-                        console.log('reCAPTCHA solved');
+                        // console.log('reCAPTCHA solved');
                     },
                     'expired-callback': () => {
-                        console.log('reCAPTCHA expired');
+                        // console.log('reCAPTCHA expired');
                         showAlert('reCAPTCHA expired. Please try again.', 'warning');
                     }
                 });
@@ -5646,7 +5701,7 @@
                     showOTPForm();
                     startOTPCountdown();
                     showAlert('OTP sent successfully to your phone', 'success');
-                    console.log('OTP sent to:', fullPhoneNumber);
+                    // console.log('OTP sent to:', fullPhoneNumber);
                 })
                 .catch((error) => {
                     console.error('Error sending OTP:', error);
@@ -5684,7 +5739,7 @@
             confirmationResult.confirm(otpCode)
                 .then((result) => {
                     const user = result.user;
-                    console.log('Phone authentication successful:', user.phoneNumber);
+                    // console.log('Phone authentication successful:', user.phoneNumber);
 
                     // Check if user is authorized
                     checkUserAuthorization(user.phoneNumber);
@@ -5698,7 +5753,7 @@
                         showAlert('Invalid OTP code. Please try again.', 'danger');
                     } else if (error.code === 'auth/code-expired') {
                         showAlert('OTP code expired. Please request a new one.', 'warning');
-                        console.log('Form reset');
+                        // console.log('Form reset');
                     } else {
                         showAlert('Failed to verify OTP. Please try again.', 'danger');
                     }
@@ -5760,7 +5815,7 @@
                     return saveUserData(userKey, existingUser);
                 }
             }).catch(error => {
-                console.log('Could not update last login:', error);
+                // console.log('Could not update last login:', error);
             });
 
             // Hide login modal and show dashboard
@@ -5771,7 +5826,7 @@
             loadDashboard();
 
             showAlert(`Welcome back, ${userData.fullName}!`, 'success');
-            console.log('Login completed for user:', currentUser);
+            // console.log('Login completed for user:', currentUser);
         }
 
         function showOTPForm() {
@@ -5805,7 +5860,7 @@
         function resendOTP() {
             if (otpCountdown) return; // Still in countdown
 
-            console.log('Form reset');
+            // console.log('Form reset');
             setTimeout(() => {
                 sendOTP();
             }, 500);
@@ -5867,7 +5922,7 @@
                 }
 
                 // Submit to both Firebase and Google Sheets
-                console.log('Saving user data:', userData);
+                // console.log('Saving user data:', userData);
                 return Promise.all([
                     saveUserData(userKey, userData),
                     submitToGoogleSheets('users', userData)
@@ -5902,10 +5957,10 @@
 
         // Google Sheets submission function
         function submitToGoogleSheets(sheetType, data) {
-            console.log('Attempting to submit to Google Sheets:', sheetType, data);
+            // console.log('Attempting to submit to Google Sheets:', sheetType, data);
 
             if (!CONFIG.enableGoogleSheets) {
-                console.log('Google Sheets integration disabled');
+                // console.log('Google Sheets integration disabled');
                 return Promise.resolve({ success: true, message: 'Sheets disabled' });
             }
 
@@ -5918,11 +5973,11 @@
                 source: 'Management Dashboard'
             };
 
-            console.log('Google Sheets payload:', payload);
+            // console.log('Google Sheets payload:', payload);
 
             // If Google Apps Script URL is configured, make the actual request
             if (CONFIG.GOOGLE_SCRIPT_URL && CONFIG.GOOGLE_SCRIPT_URL !== 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec') {
-                console.log('Making request to Google Apps Script:', CONFIG.GOOGLE_SCRIPT_URL);
+                // console.log('Making request to Google Apps Script:', CONFIG.GOOGLE_SCRIPT_URL);
                 return fetch(CONFIG.GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors', // Handle CORS issues
@@ -5932,7 +5987,7 @@
                     body: JSON.stringify(payload)
                 })
                     .then(response => {
-                        console.log('Google Sheets request completed (no-cors mode)');
+                        // console.log('Google Sheets request completed (no-cors mode)');
                         // With no-cors mode, we assume success if no error is thrown
                         return { success: true, message: 'Data submitted to Google Sheets' };
                     })
@@ -5943,10 +5998,10 @@
                     });
             } else {
                 // Simulate successful submission for demo
-                console.log('Google Sheets URL not configured, using demo mode');
+                // console.log('Google Sheets URL not configured, using demo mode');
                 return new Promise((resolve) => {
                     setTimeout(() => {
-                        console.log('Demo Google Sheets submission completed');
+                        // console.log('Demo Google Sheets submission completed');
                         resolve({ success: true, message: 'Data submitted to Google Sheets (Demo Mode)' });
                     }, 500);
                 });
@@ -5981,7 +6036,7 @@
             promises.push(submitToGoogleSheets(formType, submissionData));
 
             return Promise.all(promises).then(() => {
-                console.log(`${formType} form submitted successfully`);
+                // console.log(`${formType} form submitted successfully`);
                 return { success: true, data: submissionData };
             }).catch(error => {
                 console.error(`Error submitting ${formType} form:`, error);
@@ -6144,7 +6199,7 @@
             Object.values(users).forEach(user => {
                 stats.total++;
                 if (user.status === 'active') stats.active++;
-                else if (user.status === 'pending') stats.pending++;
+                else if (user.status === 'TO BE PAID') stats.pending++;
                 else if (user.status === 'blocked') stats.blocked++;
             });
 
@@ -6168,11 +6223,11 @@
         function getStatusBadgeColor(status) {
             const colors = {
                 'active': 'success',
-                'pending': 'warning',
+                'TO BE PAID': 'warning',
                 'blocked': 'danger',
                 'inactive': 'secondary'
             };
-            return colors[status] || 'secondary';
+            return colors[status] || 'primary';
         }
 
         function formatDate(dateString) {
@@ -6391,14 +6446,15 @@
                         customersSnapshot.forEach(child => {
                             const customer = child.val();
                             const custId = child.key;
-
+                            // console.log("Customer Data:", customer);//"TO BE PAID"
                             // Include customers with pending payment status OR missing paymentStatus (treat as pending)
-                            const paymentStatus = (customer.paymentStatus || 'pending').toString().toLowerCase();
-                            const isPending = !customer.paymentStatus || paymentStatus === '    ' || paymentStatus === 'pending';
+                            const paymentStatus = (customer.paymentStatus || 'TO BE PAID').toString().toLowerCase();
+                            // console.log("Payment Status:", paymentStatus === 'TO BE PAID'.toLowerCase());
+                            const isPending = !customer.paymentStatus || paymentStatus === '' || paymentStatus === 'TO BE PAID'.toLowerCase();
 
                             if ((customer.stylistCode && isPending)) {//customer.tokenNo ||
-                                const stylistInfo = stylists[customer.stylistCode] || {};
-
+                                // console.log("Payment Status:", isPending, customer.stylistCode);
+                                const stylistInfo = stylists[customer.stylistCode] || {}
 
                                 customers.push({
                                     tokenNo: customer.tokenNo,
@@ -6407,11 +6463,12 @@
                                     bankName: stylistInfo.bankName || 'N/A',
                                     amount: parseFloat(customer.totalPayment || customer.amount || 0),
                                     narration: custId,
-                                    status: 'pending',
+                                    status: 'TO BE PAID',
                                     customerData: customer,
                                     stylistCode: customer.stylishCode,
                                     customerId: custId
                                 });
+                                // console.log("Customer Payment Request:", customers[customers.length - 1])
                             }
                         });
                     }
@@ -6447,43 +6504,42 @@
             const searchTerm = document.getElementById('paymentSearchInput')?.value.toLowerCase() || '';
             const bankFilter = document.getElementById('paymentBankFilter')?.value || '';
             const amountFilter = document.getElementById('paymentAmountFilter')?.value || '';
-            const statusFilter = document.getElementById('paymentStatusFilter')?.value || 'pending';
-
-            filteredPaymentRequests = paymentRequestsData.filter(item => {
+            const statusFilter = document.getElementById('paymentStatusFilter')?.value || 'TO BE PAID';
+            // console.log("Data Filter", paymentRequestsData)
+            filteredPaymentRequests = paymentRequestsData.filter(item => {//console.log("Filtering Item:", item);
                 // Search filter
-                const matchesSearch = !searchTerm ||
-                    (item.tokenNo || '').toLowerCase().includes(searchTerm) ||
+                const matchesSearch = !searchTerm || (item.customerData?.customerName || '').toLowerCase().includes(searchTerm) ||
                     (item.beneficiaryName || '').toLowerCase().includes(searchTerm) ||
-                    (item.narration || '').toLowerCase().includes(searchTerm);
+                    (item.customerData?.customerId || '').toLowerCase().includes(searchTerm);
 
                 // Bank filter
                 const matchesBank = !bankFilter || item.bankName === bankFilter;
 
-                // Amount filter
-                let matchesAmount = true;
-                if (amountFilter) {
-                    const amount = item.amount || 0;
-                    switch (amountFilter) {
-                        case '0-1000':
-                            matchesAmount = amount >= 0 && amount <= 1000;
-                            break;
-                        case '1000-5000':
-                            matchesAmount = amount > 1000 && amount <= 5000;
-                            break;
-                        case '5000-10000':
-                            matchesAmount = amount > 5000 && amount <= 10000;
-                            break;
-                        case '10000+':
-                            matchesAmount = amount > 10000;
-                            break;
-                    }
-                }
+                // // Amount filter
+                // let matchesAmount = true;
+                // if (amountFilter) {
+                //     const amount = item.amount || 0;
+                //     switch (amountFilter) {
+                //         case '0-1000':
+                //             matchesAmount = amount >= 0 && amount <= 1000;
+                //             break;
+                //         case '1000-5000':
+                //             matchesAmount = amount > 1000 && amount <= 5000;
+                //             break;
+                //         case '5000-10000':
+                //             matchesAmount = amount > 5000 && amount <= 10000;
+                //             break;
+                //         case '10000+':
+                //             matchesAmount = amount > 10000;
+                //             break;
+                //     }
+                // }
 
-                // Status filter - handle undefined status safely
-                const itemStatus = item.status || 'pending';
-                const matchesStatus = !statusFilter || itemStatus === statusFilter;
+                // // Status filter - handle undefined status safely
+                // const itemStatus = item.status || 'TO BE PAID';
+                // const matchesStatus = !statusFilter || itemStatus === statusFilter;
 
-                return matchesSearch && matchesBank && matchesAmount && matchesStatus;
+                return matchesSearch && matchesBank; //&& matchesStatus;
             });
 
             currentPage = 1;
@@ -6492,9 +6548,10 @@
         }
 
         function displayPaymentRequestsData() {
+            // console.log("Displaying Payment Requests Data");
             const tbody = document.getElementById('paymentRequestsDataBody');
             if (!tbody) return;
-
+            // console.log("Filtered Payment Requests:", filteredPaymentRequests);
             const startIndex = (currentPage - 1) * itemsPerPage;
             const endIndex = startIndex + itemsPerPage;
             const currentItems = filteredPaymentRequests.slice(startIndex, endIndex);
@@ -6505,33 +6562,35 @@
                 tbody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-muted">No payment requests found</td></tr>';
                 return;
             }
-
+            // console.log("Displaying payment requests:", currentItems);
             tbody.innerHTML = '';
             currentItems.forEach(item => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td><strong>${item.tokenNo}</strong></td>
                     <td>
                         <div><strong>${item.beneficiaryName}</strong></div>
-                        <small class="text-muted">${item.bankName}</small>
+                        <small class="text-muted">Customer: ${item.customerData?.customerName}</small>
                     </td>
+                    <td><strong>${item.bankName.toLocaleString()}</strong></td>
                     <td>${item.bankCode || '<em class="text-muted">Not specified</em>'}</td>
-                    <td><strong>₦${item.amount.toLocaleString()}</strong></td>
+                    <td><strong>₦5000</strong></td>
                     <td><code>${item.narration}</code></td>
-                    <td><span class="badge bg-warning">PENDING</span></td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-primary" onclick="viewPaymentDetails('${item.narration}')" title="View Details">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn btn-outline-success" onclick="processPayment('${item.narration}')" title="Process Payment">
-                                <i class="fas fa-check"></i>
-                            </button>
-                        </div>
-                    </td>
+                    <td><span class="badge bg-warning">TO BE PAID</span></td>
+                    
                 `;
                 tbody.appendChild(row);
             });
+
+            // <td>
+            //     <div class="btn-group btn-group-sm">
+            //         <button class="btn btn-outline-primary" onclick="viewPaymentDetails('${item.narration}')" title="View Details">
+            //             <i class="fas fa-eye"></i>
+            //         </button>
+            //         <button class="btn btn-outline-success" onclick="processPayment('${item.narration}')" title="Process Payment">
+            //             <i class="fas fa-check"></i>
+            //         </button>
+            //     </div>
+            // </td>
 
             // Update pagination
             updatePaymentPagination();
@@ -6580,8 +6639,12 @@
         }
 
         function updatePaymentRequestStats() {
-            const pendingRequests = filteredPaymentRequests.filter(item => item.status === 'pending');
-            const PendingAmount = pendingRequests.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+            // console.log("Updating Payment Request Stats", filteredPaymentRequests);
+            const pendingRequests = filteredPaymentRequests.filter(item => item.status === 'TO BE PAID');
+            // console.log("Pending Requests:", pendingRequests);
+            const PendingAmount = pendingRequests.length === 0 ? 0 : pendingRequests.length * 5000;//
+            // pendingRequests.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+            // console.log("Pending Amount:", PendingAmount);
             const uniqueBanks = new Set(filteredPaymentRequests.map(item => item.bankName).filter(bank => bank !== 'N/A')).size;
             const uniqueBeneficiaries = new Set(filteredPaymentRequests.map(item => item.beneficiaryName)).size;
 
@@ -6597,17 +6660,19 @@
                 return;
             }
 
-            const headers = ['Token No', 'Beneficiary Name', 'Bank Code', 'Amount', 'Narration (CUST_ID)', 'Status'];
-            const csvContent = [headers.join(',')];
+            //['Beneficiary Name', 'Bank Code', 'Account Number', 'Amount', 'Narration (Transaction ID)', ];
 
+            const headers = ['Beneficiary Name', 'Bank Code', 'Account Number', 'Amount', 'Narration (Transaction ID)'];
+            const csvContent = [headers.join(',')];
+            console.log("Exporting payment requests:", filteredPaymentRequests);
             filteredPaymentRequests.forEach(item => {
                 const row = [
-                    item.tokenNo,
                     `"${item.beneficiaryName}"`,
-                    item.bankCode || '',
+                    item.bankName,
+                    item.bankCode,
                     item.amount,
-                    item.narration,
-                    item.status.toUpperCase()
+                    item.narration
+                    // item.status.toUpperCase()
                 ];
                 csvContent.push(row.join(','));
             });
@@ -6641,16 +6706,14 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p><strong>Token No:</strong> ${item.tokenNo}</p>
                                     <p><strong>Beneficiary:</strong> ${item.beneficiaryName}</p>
-                                    <p><strong>Bank:</strong> ${item.bankName}</p>
-                                    <p><strong>Bank Code:</strong> ${item.bankCode || 'Not specified'}</p>
+                                    <p><strong>Bank Name:</strong> ${item.bankName}</p>
+                                    <p><strong>Account Number:</strong> ${item.bankCode || 'Not specified'}</p>
+                                    
                                 </div>
                                 <div class="col-md-6">
                                     <p><strong>Amount:</strong> ₦${item.amount.toLocaleString()}</p>
                                     <p><strong>Narration:</strong> ${item.narration}</p>
-                                    <p><strong>Status:</strong> <span class="badge bg-warning">PENDING</span></p>
-                                    <p><strong>Stylist Code:</strong> ${item.stylistCode}</p>
                                 </div>
                             </div>
                         </div>
@@ -6756,20 +6819,41 @@
                 const lines = csv.split('\n');
                 const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
 
-                // Expected columns: Token No, Beneficiary Name, Bank Code, Amount, Narration (CUST_ID), Status
+                // Flexible CSV format: detect columns by header name
                 const csvData = [];
+                const colMap = {};
+                headers.forEach((h, i) => {
+                    const key = h.toLowerCase().replace(/\s+/g, '');
+                    if (key.includes('beneficiary')) colMap.beneficiaryName = i;
+                    if (key.includes('bankcode')) colMap.bankCode = i;
+                    if (key.includes('accountnumber')) colMap.accountNumber = i;
+                    if (key === 'amount') colMap.amount = i;
+                    if (key.includes('narration') || key.includes('transactionid')) colMap.narration = i;
+                    if (key.includes('paymentstatus')) colMap.paymentStatus = i;
+                });
+
+                // If 12 columns detected and Payment Status not found, use fixed positions
+                const useFixedPositions = headers.length >= 12 && colMap.paymentStatus === undefined;
+                if (useFixedPositions) {
+                    colMap.beneficiaryName = 2;
+                    colMap.bankCode = 8;
+                    colMap.accountNumber = 9;
+                    colMap.amount = 4;
+                    colMap.narration = 7;
+                    colMap.paymentStatus = 11; // Column 12 (0-indexed)
+                }
 
                 for (let i = 1; i < lines.length; i++) {
                     if (lines[i].trim()) {
                         const cells = lines[i].split(',').map(c => c.trim().replace(/"/g, ''));
-                        if (cells.length >= 6) {
+                        if (cells.length >= 6 && colMap.narration !== undefined && colMap.paymentStatus !== undefined) {
                             csvData.push({
-                                tokenNo: cells[0],
-                                beneficiaryName: cells[1],
-                                bankCode: cells[2],
-                                amount: parseFloat(cells[3]) || 0,
-                                narration: cells[4], // This is CUST_ID
-                                status: cells[5].toLowerCase()
+                                beneficiaryName: cells[colMap.beneficiaryName] || '',
+                                bankCode: cells[colMap.bankCode] || '',
+                                accountNumber: cells[colMap.accountNumber] || '',
+                                amount: parseFloat(cells[colMap.amount]) || 0,
+                                narration: cells[colMap.narration],
+                                paymentStatus: (cells[colMap.paymentStatus] || '').toUpperCase()
                             });
                         }
                     }
@@ -6789,36 +6873,29 @@
 
                 csvData.forEach(row => {
                     const customerId = row.narration; // CUST_ID from narration column
-
-                    // Find matching customer by ID or token number
                     const updatePromise = database.ref('customers').child(customerId).once('value')
                         .then(snapshot => {
                             if (snapshot.exists()) {
-                                const customer = snapshot.val();
-                                // Verify token number matches for extra security
-                                if (customer.tokenNo === row.tokenNo) {
-                                    // Update payment status
-                                    return database.ref('customers').child(customerId).update({
-                                        paymentStatus: row.status === 'paid' || row.status === 'completed' ? 'Paid' : 'Pending',
-                                        lastUpdated: new Date().toISOString(),
-                                        updatedViaCSV: true
-                                    }).then(() => {
-                                        updatedCount++;
-                                    });
-                                } else {
-                                    console.warn(`Token mismatch for customer ${customerId}: expected ${customer.tokenNo}, got ${row.tokenNo}`);
-                                    notFoundCount++;
+                                // Update payment status based on Payment Status column
+                                const status = row.paymentStatus;
+                                let newStatus = 'TO BE PAID';
+                                if (status === 'PAID' || status === 'SUCCESSFUL' || status === 'COMPLETED') {
+                                    newStatus = 'PAID';
                                 }
+                                return database.ref('customers').child(customerId).update({
+                                    paymentStatus: newStatus,
+                                    lastUpdated: new Date().toISOString(),
+                                    updatedViaCSV: true
+                                }).then(() => {
+                                    updatedCount++;
+                                });
                             } else {
-                                console.warn(`Customer not found: ${customerId}`);
                                 notFoundCount++;
                             }
                         })
                         .catch(error => {
-                            console.error(`Error updating customer ${customerId}:`, error);
                             notFoundCount++;
                         });
-
                     updatePromises.push(updatePromise);
                 });
 
@@ -6977,6 +7054,7 @@
             const searchTerm = document.getElementById('customerSearch').value.toLowerCase();
             const locationFilter = document.getElementById('customerLocationFilter').value;
             const stylistFilter = document.getElementById('customerStylistFilter').value;
+            const dateFilter = document.getElementById('customerDate').value;
 
             const table = document.getElementById('customersTable');
             const rows = table.querySelectorAll('tbody tr');
@@ -7005,7 +7083,34 @@
                 const matchesLocation = !locationFilter || location.includes(locationFilter.toLowerCase());
                 const matchesStylist = !stylistFilter || stylistCode.includes(stylistFilter);
 
-                const isVisible = matchesSearch && matchesLocation && matchesStylist;
+                let matchesDate = true;
+                if (dateFilter) {
+                    // Try multiple date formats: MM/DD/YYYY, DD/MM/YYYY, M/D/YYYY, etc.
+                    const dateMatch = registrationText.match(/\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}/);
+                    if (dateMatch) {
+                        try {
+                            // Parse the matched date string
+                            const dateParts = dateMatch[0].split(/[\/\-\.]/);
+                            let regDate;
+
+                            // Try to create date object - handle both MM/DD/YYYY and DD/MM/YYYY
+                            if (dateParts[2].length === 4) {
+                                regDate = new Date(dateParts[2], dateParts[0] - 1, dateParts[1]); // MM/DD/YYYY
+                            } else {
+                                regDate = new Date('20' + dateParts[2], dateParts[0] - 1, dateParts[1]); // MM/DD/YY
+                            }
+
+                            const filterDate = new Date(dateFilter);
+                            matchesDate = regDate.toDateString() === filterDate.toDateString();
+                        } catch (e) {
+                            matchesDate = false;
+                        }
+                    } else {
+                        matchesDate = false;
+                    }
+                }
+
+                const isVisible = matchesSearch && matchesLocation && matchesStylist && matchesDate;
                 row.style.display = isVisible ? '' : 'none';
 
                 if (isVisible) {
@@ -7046,14 +7151,15 @@
             if (monthlyCustomersEl) monthlyCustomersEl.textContent = monthCount;
 
             // Also update main dashboard customer card if visible
-            const dashboardCustomerCard = document.querySelector('.dashboard-section .row .col-md-3:nth-child(2) .value');
-            if (dashboardCustomerCard) {
-                dashboardCustomerCard.textContent = visibleCount;
-            }
+            // const dashboardCustomerCard = document.querySelector('.dashboard-section .row .col-md-3:nth-child(2) .value');
+            // if (dashboardCustomerCard) {
+            //     dashboardCustomerCard.textContent = visibleCount;
+            // }
         } function clearFilters() {
             document.getElementById('stylistSearch').value = '';
             document.getElementById('locationFilter').value = '';
             document.getElementById('statusFilter').value = '';
+            document.getElementById('customerDate').value = '';
 
             // Show all rows
             const table = document.getElementById('stylistsTable');
@@ -7072,6 +7178,7 @@
             document.getElementById('customerSearch').value = '';
             document.getElementById('customerLocationFilter').value = '';
             document.getElementById('customerStylistFilter').value = '';
+            document.getElementById('customerDate').value = '';
 
             // Show all rows
             const table = document.getElementById('customersTable');
