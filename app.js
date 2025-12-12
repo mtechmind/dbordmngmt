@@ -6330,7 +6330,7 @@
         // Get field label
         function getFieldLabel(field) {
             const label = field.parentNode.querySelector('label');
-            return label ? label.textContent.replace('*', '').trim() : field.name || 'Field';
+            return label ? label.textContent.replace(/\*/g, '').trim() : field.name || 'Field';
         }
 
         // Google Apps Script Mobile Responsive Force Script
