@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (clearCustomerFiltersBtn) {
         clearCustomerFiltersBtn.addEventListener('click', clearCustomerFilters());
     }
+});
         // iOS Safari Compatibility Fixes
 
         // --- Encryption Utility for Secure Storage ---
